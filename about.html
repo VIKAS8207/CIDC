@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horizon Courts | CIDC Raipur Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#F8F9FA]">
+
+    <div class="js-container"></div>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1B365D',
+                        brandDark: '#0B111D',
+                        brandBlue: '#0066FF',
+                        accentRed: '#B22234',
+                    },
+                    fontFamily: {
+                        sans: ['Manrope', 'sans-serif'],
+                    }
+                },
+            },
+        }
+    </script>
+
+ <script type="text/babel">
+    const { useState, useEffect, useCallback, useRef } = React;
+
+    const IndianFlag = ({ width = "w-6", height = "h-4" }) => (
+      <svg viewBox="0 0 512 341" className={`${width} ${height} rounded-sm shadow-sm`} xmlns="http://www.w3.org/2000/svg">
+        <rect width="512" height="113.7" fill="#ff9933"/>
+        <rect y="113.7" width="512" height="113.7" fill="#ffffff"/>
+        <rect y="227.4" width="512" height="113.7" fill="#128807"/>
+        <g transform="translate(256 170.5)">
+          <circle r="50" fill="none" stroke="#000080" strokeWidth="4"/>
+          <circle r="8" fill="#000080"/>
+          {[...Array(24)].map((_, i) => (
+            <line key={i} y2="50" transform={`rotate(${i * 15})`} stroke="#000080" strokeWidth="2" />
+          ))}
+        </g>
+      </svg>
+    );
+
+    function Navbar() {
+      const [isScrolled, setIsScrolled] = useState(false);
+      const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+      const handleScroll = useCallback(() => {
+        setIsScrolled(window.scrollY > 50);
+      }, []);
+
+      useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+      }, [handleScroll]);
+
+      const navLinks = [
+        { name: "Home", href: "index.html"},
+        { name: "About Us", href: "about.html", active: true },
+        { name: "Schemes", href: "scheme.html" },
+        { name: "RTI", href: "#" },
+        { name: "Tender", href: "#" },
+        { name: "Vendor & Shop", href: "#" },
+        { name: "Accounts", href: "#" },
+        { name: "To-Do", href: "#" },
+        { name: "Contact Us", href: "getin.html" },
+      ];
+
+      return (
+        <header className="fixed top-0 z-50 w-full transition-all duration-300">
+          {/* Top Black Bar */}
+          <div className={`bg-black text-white transition-all duration-300 overflow-hidden ${isScrolled ? 'h-0 opacity-0' : 'h-12 opacity-100 border-b border-white/10'}`}>
+            <div className="max-w-[1500px] mx-auto px-6 h-full flex items-center justify-between text-xs tracking-wide">
+              <div className="flex items-center gap-3">
+                <IndianFlag width="w-7" />
+                <span className="font-medium uppercase">Government of India</span>
+              </div>
+              <div className="flex items-center gap-6">
+                <div className="flex items-center gap-3 border-r border-white/20 pr-6">
+                  <button className="hover:text-red-500">-A</button>
+                  <button className="bg-white/10 w-6 h-6 flex items-center justify-center rounded">A</button>
+                  <button className="hover:text-red-500">A+</button>
+                </div>
+                <div className="flex items-center gap-3">
+                  <button className="font-semibold text-red-500 uppercase">English</button>
+                  <span className="text-white/30">|</span>
+                  <button className="text-gray-300 hover:text-red-500">हिन्दी</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Main White Navbar */}
+          <div className={`w-full transition-all duration-300 bg-white border-b border-gray-100 ${isScrolled ? 'shadow-md h-20' : 'h-28'}`}>
+            <div className="max-w-[1500px] mx-auto px-6 h-full flex items-center justify-between gap-10">
+              <div className="shrink-0 flex items-center gap-5">
+                <a href="/" className="shrink-0">
+  <img 
+    src="/image/CIDClogo.png" 
+    alt="Logo" 
+    className={`
+      object-contain transition-all duration-500 
+      /* Mobile/Small sizes */
+      ${isScrolled ? 'h-8' : 'h-10'} 
+      /* Tablet/Medium sizes (md) */
+      ${isScrolled ? 'md:h-9' : 'md:h-12'} 
+      /* Desktop sizes (lg) */
+      ${isScrolled ? 'lg:h-10' : 'lg:h-14'}
+    `} 
+  />
+</a>
+                <div className={`w-px bg-gray-200 transition-all duration-500 ${isScrolled ? 'h-10' : 'h-16'}`}></div>
+                <div className="flex flex-col max-w-[200px] md:max-w-[300px] text-gray-900 leading-tight">
+  <span className="text-sm md:text-lg font-extrabold uppercase text-gray-500">
+    Government of Chhattisgarh
+  </span>
+  <span className="text-[10px] md:text-[13px] font-semibold text-gray-700">
+    Chhattisgarh Infrastructure Development Corporation Ltd.
+  </span>
+</div>
+              </div>
+
+              {/* Desktop Nav */}
+              <nav className="hidden xl:flex items-center space-x-9 text-[15px] font-semibold text-gray-800">
+                {navLinks.map((link) => (
+                  <a key={link.name} className={link.active ? "text-[#B22234]" : "hover:text-[#B22234] transition-colors"} href={link.href}>{link.name}</a>
+                ))}
+              </nav>
+
+              {/* Mobile Toggle */}
+              <button className="xl:hidden p-2" onClick={() => setIsMenuOpen(true)}>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+              </button>
+            </div>
+          </div>
+
+          {/* Sidebar Overlay */}
+          <div className={`fixed inset-0 bg-black/50 transition-opacity duration-300 xl:hidden ${isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`} onClick={() => setIsMenuOpen(false)} />
+
+          {/* Sidebar Panel */}
+          <div className={`fixed top-0 right-0 h-full w-72 bg-white shadow-2xl transition-transform duration-300 transform xl:hidden z-[60] ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-8">
+                <span className="font-bold text-gray-400">MENU</span>
+                <button onClick={() => setIsMenuOpen(false)}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+              </div>
+              <nav className="flex flex-col space-y-4">
+                {navLinks.map((link) => (
+                  <a key={link.name} className={`text-lg font-semibold py-2 border-b border-gray-50 ${link.active ? "text-[#B22234]" : "text-gray-800"}`} href={link.href}>{link.name}</a>
+                ))}
+              </nav>
+            </div>
+          </div>
+        </header>
+      );
+    }
+
+  
+
+        function AboutHero() {
+  const containerStyle = { maxWidth: '1500px' };
+
+  return (
+    <section className="relative py-10 lg:py-20 overflow-hidden border-b border-zinc-100">
+      <div style={containerStyle} className="mx-auto px-6">
+        <div className="flex flex-col lg:flex-row items-stretch gap-16">
+          
+          {/* Left Side: Content */}
+          <div className="flex-1 flex flex-col justify-center">
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-12 h-1 bg-[#B22234]"></div>
+              <span className="text-[#B22234] font-black text-[11px] uppercase tracking-[0.3em]">
+                Our Establishment
+              </span>
+            </div>
+            
+            <h1 className="text-4xl lg:text-6xl font-black text-zinc-900 leading-[1.1] uppercase tracking-tighter mb-8">
+              Driving Infrastructure <br /> 
+              <span className="text-[#B22234]">Excellence</span> Since 2001
+            </h1>
+            
+            <p className="text-zinc-600 text-base leading-relaxed max-w-2xl border-l-4 border-zinc-900 pl-8 mb-10">
+              The Chhattisgarh Infrastructure Development Corporation Ltd. (CIDC) functions as the 
+              apex body for standardized construction and industrial growth. We bridge the gap 
+              between state policy and ground-level execution through digital transparency 
+              and professional project management.
+            </p>
+
+          </div>
+
+          {/* Right Side: Image with Industrial Frame */}
+          <div className="flex-1 relative">
+            <div className="relative z-10 border-[10px] border-white  overflow-hidden">
+              <img 
+                src="/image/pexels-midlox-28377273.jpg" 
+                alt="Infrastructure Development" 
+                className="w-full h-[550px] object-cover"
+              />
+              <div className="absolute top-0 right-0 bg-zinc-900 text-white p-6 font-black text-xl tracking-tighter">
+                CIDC <br/> <span className="text-[#B22234]">HQ</span>
+              </div>
+            </div>
+            
+        
+          </div>
+
+        </div>
+
+        
+      </div>
+    </section>
+  );
+}
+
+function VisionMission() {
+  const goals = [
+    {
+      title: "Our Vision",
+      icon: (
+        <svg className="w-8 h-8 text-[#B22234]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+        </svg>
+      ),
+      description: "To emerge as a premier agency for infrastructure development, transforming Chhattisgarh into a model state with world-class connectivity and robust industrial corridors.",
+      tag: "Future State"
+    },
+    {
+      title: "Our Mission",
+      icon: (
+        <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      ),
+      description: "To execute high-quality infrastructure projects through innovative financing, transparent procurement, and efficient management of public resources.",
+      tag: "Direct Action"
+    }
+  ];
+
+  const containerStyle = { maxWidth: '1500px' };
+
+  return (
+    <section className="py-24 bg-white border-b border-zinc-200">
+      <div style={containerStyle} className="mx-auto px-6">
+        
+        {/* Section Header - Industrial Style */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-6">
+          <div className="max-w-xl">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-12 h-1 bg-zinc-900"></div>
+              <span className="text-zinc-400 font-black text-[10px] uppercase tracking-[0.3em]">Corporate Roadmap</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-black text-zinc-900 uppercase tracking-tighter leading-none">
+              The Foundation of <br /> <span className="text-[#B22234]">Our Purpose</span>
+            </h2>
+          </div>
+          <p className="text-zinc-500 text-sm font-medium max-w-xs border-l-2 border-zinc-200 pl-6">
+            Establishing the strategic benchmarks for a modernized Chhattisgarh infrastructure.
+          </p>
+        </div>
+
+        {/* Content Cards - Sharp & High Contrast */}
+        <div className="grid md:grid-cols-2 gap-0 border-t border-zinc-900">
+          {goals.map((item, index) => (
+            <div 
+              key={index} 
+              className={`p-12 lg:p-16 relative group transition-all duration-500 overflow-hidden 
+                ${index === 0 ? 'bg-zinc-50 border-r border-zinc-200' : 'bg-zinc-900 text-white'}`}
+            >
+              {/* Decorative Tag */}
+              <span className={`inline-block text-[10px] font-black uppercase tracking-[0.2em] mb-10 px-3 py-1 
+                ${index === 0 ? 'bg-[#B22234] text-white' : 'bg-white text-zinc-900'}`}>
+                {item.tag}
+              </span>
+
+              <div className="relative z-10">
+                <div className={`mb-8 flex items-center justify-between`}>
+                  <h3 className={`text-3xl font-black uppercase tracking-tighter 
+                    ${index === 0 ? 'text-zinc-900' : 'text-white'}`}>
+                    {item.title}
+                  </h3>
+                  {item.icon}
+                </div>
+                
+                <p className={`text-base leading-relaxed font-medium 
+                  ${index === 0 ? 'text-zinc-600' : 'text-zinc-400'}`}>
+                  {item.description}
+                </p>
+              </div>
+
+              {/* Hover Overlay */}
+              <div className="absolute inset-0 bg-[#B22234] translate-y-full group-hover:translate-y-[98%] transition-transform duration-500"></div>
+            </div>
+          ))}
+        </div>
+        
+        {/* Core Values Footer - Monochromatic & Spaced */}
+        <div className="mt-20 py-10 border-t border-zinc-100 flex flex-wrap justify-between items-center gap-6">
+          {['Integrity', 'Innovation', 'Excellence', 'Sustainability'].map((value) => (
+            <span key={value} className="font-black text-zinc-300 text-[12px] uppercase tracking-[0.4em] hover:text-[#B22234] transition-colors cursor-default">
+              {value}
+            </span>
+          ))}
+        </div>
+
+      </div>
+    </section>
+  );
+}
+function BoardMembers() {
+  const board = [
+    { 
+      name: "Shri S.K. Behar", 
+      designation: "Nominee Director", 
+      imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=300" 
+    },
+    { 
+      name: "Shri Ravi Shanker", 
+      designation: "Independent Director", 
+      imageUrl: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=300" 
+    },
+    { 
+      name: "Smt. Meeta Gupta", 
+      designation: "Ex-Officio Member", 
+      imageUrl: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=300" 
+    },
+    { 
+      name: "Shri Rajesh Kumar", 
+      designation: "Technical Director", 
+      imageUrl: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=300" 
+    }
+  ];
+
+  const containerStyle = { maxWidth: '1500px' };
+
+  return (
+    <section className="py-24 bg-white border-b border-zinc-200">
+      <div style={containerStyle} className="mx-auto px-6">
+        
+        {/* Section Header - Industrial Style */}
+        <div className="flex flex-col items-start mb-20 border-l-[6px] border-[#B22234] pl-8">
+          <span className="text-[#B22234] font-black text-[10px] uppercase tracking-[0.4em] mb-2">
+            Governance
+          </span>
+          <h2 className="text-4xl font-black text-zinc-900 uppercase tracking-tighter">
+            Board of <span className="text-[#B22234]">Directors</span>
+          </h2>
+          <p className="text-zinc-500 mt-4 text-sm font-medium max-w-xl">
+            Governing body responsible for strategic oversight, policy formulation, and high-level industrial direction.
+          </p>
+        </div>
+
+        {/* Board Members Grid - Sharp Industrial Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0 border border-zinc-200">
+          {board.map((member, idx) => (
+            <div key={idx} className="group flex flex-col items-center text-center border-r last:border-r-0 border-zinc-200 hover:bg-zinc-50 transition-all duration-300">
+              
+              {/* Image Section (Top) */}
+              <div className="relative w-full aspect-square overflow-hidden bg-zinc-100">
+                <img 
+                  src={member.imageUrl} 
+                  alt={member.name} 
+                  className="w-full h-full object-cover"
+                />
+                
+              </div>
+
+              {/* Text Section (Bottom) - Boxy & Structured */}
+              <div className="p-10 w-full flex flex-col items-center">
+                <h4 className="text-lg font-black text-zinc-900 uppercase tracking-tighter mb-2 group-hover:text-[#B22234] transition-colors">
+                  {member.name}
+                </h4>
+                
+                <div className="w-10 h-1 bg-zinc-900 mb-4 group-hover:bg-[#B22234] group-hover:w-16 transition-all"></div>
+                
+                <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] leading-tight">
+                  {member.designation}
+                </p>
+              </div>
+
+            </div>
+          ))}
+        </div>
+
+      </div>
+    </section>
+  );
+}
+function KeyOfficials() {
+  const officials = [
+    {
+      name: "Mr. Arindam Bose",
+      designation: "Head of Operations",
+      portfolio: "Overseeing pan-regional infrastructure training hubs and industry collaboration protocols.",
+      accent: "bg-[#B22234]"
+    },
+    {
+      name: "Ms. Meera Deshmukh",
+      designation: "Chief Technical Officer",
+      portfolio: "Lead for sustainable building materials research and BIM implementation.",
+      accent: "bg-zinc-900"
+    },
+    {
+      name: "Mr. Prateek Verma",
+      designation: "Registrar (Admin)",
+      portfolio: "Managing institutional governance, human capital, and internal audits.",
+      accent: "bg-[#B22234]"
+    },
+    {
+      name: "Dr. S. Raghunath",
+      designation: "Director of Research",
+      portfolio: "Heading Policy & Framework for smart-city integration initiatives.",
+      accent: "bg-zinc-900"
+    },
+    {
+      name: "Mr. Arindam Bose",
+      designation: "Head of Operations",
+      portfolio: "Overseeing pan-regional infrastructure training hubs and industry collaboration protocols.",
+      accent: "bg-[#B22234]"
+    },
+    {
+      name: "Ms. Meera Deshmukh",
+      designation: "Chief Technical Officer",
+      portfolio: "Lead for sustainable building materials research and BIM implementation.",
+      accent: "bg-zinc-900"
+    },
+    {
+      name: "Mr. Prateek Verma",
+      designation: "Registrar (Admin)",
+      portfolio: "Managing institutional governance, human capital, and internal audits.",
+      accent: "bg-[#B22234]"
+    },
+    {
+      name: "Dr. S. Raghunath",
+      designation: "Director of Research",
+      portfolio: "Heading Policy & Framework for smart-city integration initiatives.",
+      accent: "bg-zinc-900"
+    }
+    // ... add as many as needed, the height is now optimized
+  ];
+
+  const containerStyle = { maxWidth: '1500px' };
+
+  return (
+    <section className="py-20 bg-white border-b border-zinc-200">
+      <div style={containerStyle} className="mx-auto px-6">
+        
+        {/* Section Header */}
+        <div className="mb-12">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-10 h-0.5 bg-[#B22234]"></div>
+            <span className="text-[#B22234] font-black text-[9px] uppercase tracking-[0.3em]">Executive Portfolios</span>
+          </div>
+          <h2 className="text-3xl md:text-4xl font-black text-zinc-900 uppercase tracking-tighter">
+            Key Officials & <span className="text-[#B22234]">Accountability</span>
+          </h2>
+        </div>
+
+        {/* Table Header - Compact */}
+        <div className="hidden md:grid grid-cols-12 gap-0 border-y border-zinc-900 bg-zinc-50">
+          <div className="col-span-3 px-6 py-3 text-[9px] font-black uppercase tracking-[0.2em] text-zinc-400 border-r border-zinc-200">Name</div>
+          <div className="col-span-3 px-6 py-3 text-[9px] font-black uppercase tracking-[0.2em] text-zinc-400 border-r border-zinc-200">Designation</div>
+          <div className="col-span-5 px-6 py-3 text-[9px] font-black uppercase tracking-[0.2em] text-zinc-400 border-r border-zinc-200">Responsibilities</div>
+          <div className="col-span-1 px-6 py-3 text-[9px] font-black uppercase tracking-[0.2em] text-zinc-400 text-center">Dir</div>
+        </div>
+
+        {/* Table Rows - Condensed Height */}
+        <div className="divide-y divide-zinc-200 border-b border-zinc-200">
+          {officials.map((person, idx) => (
+            <div 
+              key={idx} 
+              className="grid grid-cols-1 md:grid-cols-12 gap-0 items-center group hover:bg-zinc-50 transition-colors"
+            >
+              {/* Name Column - py-4 for compactness */}
+              <div className="col-span-3 px-6 py-4 border-r border-zinc-100 flex items-center gap-3">
+                <div className={`w-1 h-5 ${person.accent}`}></div>
+                <div>
+                  <span className="md:hidden text-[8px] font-black text-zinc-300 block uppercase">Name</span>
+                  <h4 className="font-bold text-zinc-900 uppercase tracking-tight text-sm group-hover:text-[#B22234] transition-colors leading-none">
+                    {person.name}
+                  </h4>
+                </div>
+              </div>
+
+              {/* Designation Column */}
+              <div className="col-span-3 px-6 py-4 border-r border-zinc-100 flex items-center">
+                <div>
+                  <span className="md:hidden text-[8px] font-black text-zinc-300 block uppercase">Title</span>
+                  <p className="text-zinc-700 font-semibold text-[12px] uppercase tracking-wide leading-none">{person.designation}</p>
+                </div>
+              </div>
+
+              {/* Portfolio Column - Reduced text size to text-xs */}
+              <div className="col-span-5 px-6 py-4 border-r border-zinc-100 flex items-center">
+                <div>
+                  <span className="md:hidden text-[8px] font-black text-zinc-300 block uppercase">Portfolio</span>
+                  <p className="text-zinc-500 text-xs leading-snug font-medium line-clamp-2 md:line-clamp-none">
+                    {person.portfolio}
+                  </p>
+                </div>
+              </div>
+
+              {/* Contact Column - Smaller Button */}
+              <div className="col-span-1 flex items-center justify-center bg-zinc-50 md:bg-transparent py-2 md:py-0">
+                <button className="w-8 h-8 border border-zinc-200 flex items-center justify-center text-zinc-400 hover:bg-zinc-900 hover:text-white transition-all text-[10px] font-black">
+                  @
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+      </div>
+    </section>
+  );
+}
+function Footer (){
+  const sectionTitle = "text-white font-bold text-lg mb-6 pb-2 border-b-2 border-[#B22234] inline-block";
+  const linkStyle = "text-gray-400 hover:text-[#B22234] transition-colors duration-300 text-sm flex items-center gap-2";
+
+  return (
+    <footer className="bg-[#1a1a1a] text-white pt-16 pb-8">
+      <div className="max-w-[1500px] mx-auto px-6">
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+          
+          <div className="space-y-4">
+            <h3 className={sectionTitle}>CIDC Raipur</h3>
+            <p className="text-gray-400 text-sm leading-relaxed">
+              Chhattisgarh Infrastructure Development Corporation Ltd. is committed to 
+              building sustainable and world-class infrastructure for the state of Chhattisgarh.
+            </p>
+            <div className="pt-4">
+              <p className="text-xs text-gray-500 uppercase tracking-widest mb-2">Total Visitors</p>
+              <span className="bg-gray-800 px-3 py-1 rounded text-[#B22234] font-mono font-bold tracking-tighter">
+                012,458,792
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h3 className={sectionTitle}>Quick Links</h3>
+            <ul className="space-y-3">
+              <li><a href="#" className={linkStyle}>› Tenders & RFPs</a></li>
+              <li><a href="#" className={linkStyle}>› Latest News</a></li>
+              <li><a href="#" className={linkStyle}>› Recruitment</a></li>
+              <li><a href="#" className={linkStyle}>› Photo Gallery</a></li>
+              <li><a href="#" className={linkStyle}>› Important Documents</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className={sectionTitle}>Policy & Help</h3>
+            <ul className="space-y-3">
+              <li><a href="#" className={linkStyle}>› Right to Information (RTI)</a></li>
+              <li><a href="#" className={linkStyle}>› Terms & Conditions</a></li>
+              <li><a href="#" className={linkStyle}>› Privacy Policy</a></li>
+              <li><a href="#" className={linkStyle}>› Hyperlinking Policy</a></li>
+              <li><a href="#" className={linkStyle}>› Copyright Policy</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className={sectionTitle}>Contact Us</h3>
+            <div className="text-gray-400 text-sm space-y-4">
+              <p>
+                <strong>Address:</strong><br />
+                First Floor, Shastri Chowk,<br /> 
+                Raipur, Chhattisgarh - 492001
+              </p>
+              <p>
+                <strong>Phone:</strong> +91-771-1234567
+              </p>
+              <p>
+                <strong>Email:</strong> info@cidc.cg.gov.in
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <hr className="border-gray-800 mb-8" />
+
+        <div className="flex flex-wrap items-center justify-center gap-12 mb-8 opacity-70 grayscale hover:grayscale-0 transition-all">
+          <img src="/image/digital-india.png" alt="Digital India" className="h-10 object-contain" />
+          <img src="/image/nic-logo.png" alt="National Informatics Centre" className="h-10 object-contain" />
+          <img src="/image/mygov-logo.png" alt="MyGov" className="h-10 object-contain" />
+          <img src="/image/india-gov-logo.png" alt="India.gov.in" className="h-10 object-contain" />
+        </div>
+
+        <div className="text-center space-y-4 pt-8 border-t border-gray-800">
+          <p className="text-xs text-gray-500 leading-relaxed">
+            Content Owned by Chhattisgarh Infrastructure Development Corporation Ltd. (CIDC) <br />
+            © 2026 CIDC. All rights reserved. 
+          </p>
+          <p className="text-[10px] text-gray-600 uppercase tracking-widest">
+            Developed and Hosted by <span className="text-gray-400">National Informatics Centre (NIC)</span>
+          </p>
+        </div>
+
+      </div>
+    </footer>
+  );
+};
+
+  function FloatingNotice() {
+  return (
+    <a 
+      href="notice.html" 
+      className="fixed bottom-10 right-10 z-[100] flex items-center group font-sans"
+    >
+      {/* Label: Only visible on hover */}
+      <span className=" z-[-1]  bg-[#B22234] text-white text-[12px] font-black uppercase tracking-[0.2em] px-8 py-4 pr-12 -mr-10 opacity-0 group-hover:opacity-100 transition-all duration-300">
+        Notice
+      </span>
+
+      {/* Circle Button */}
+      <div className="w-20 h-20 bg-[#B22234] text-white rounded-full flex items-center justify-center shadow-xl group-hover:bg-zinc-950 transition-colors duration-300">
+        <svg 
+          className="w-7 h-7" 
+          fill="none" 
+          stroke="currentColor" 
+          strokeWidth="2.5" 
+          viewBox="0 0 24 24"
+        >
+          <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+      </div>
+    </a>
+  );
+}
+
+        function Home() {
+            return (
+                <div className="antialiased font-sans">
+                    <Navbar />
+                    <main className="pt-40 min-h-screen px-6">
+                       <AboutHero />
+                       <VisionMission />
+                       
+                       <BoardMembers />
+                       <KeyOfficials />
+                        <FloatingNotice />  
+                    
+
+
+                    </main>
+                    <Footer />
+                </div>
+            );
+        }
+
+        const container = document.querySelector('.js-container');
+        const root = ReactDOM.createRoot(container);
+        root.render(<Home />);
+    </script>
+</body>
+</html>

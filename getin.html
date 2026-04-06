@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horizon Courts | CIDC Raipur Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#F8F9FA]">
+
+    <div class="js-container"></div>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1B365D',
+                        brandDark: '#0B111D',
+                        brandBlue: '#0066FF',
+                        accentRed: '#B22234',
+                    },
+                    fontFamily: {
+                        sans: ['Manrope', 'sans-serif'],
+                    }
+                },
+            },
+        }
+    </script>
+
+ <script type="text/babel">
+    const { useState, useEffect, useCallback, useRef } = React;
+
+    const IndianFlag = ({ width = "w-6", height = "h-4" }) => (
+      <svg viewBox="0 0 512 341" className={`${width} ${height} rounded-sm shadow-sm`} xmlns="http://www.w3.org/2000/svg">
+        <rect width="512" height="113.7" fill="#ff9933"/>
+        <rect y="113.7" width="512" height="113.7" fill="#ffffff"/>
+        <rect y="227.4" width="512" height="113.7" fill="#128807"/>
+        <g transform="translate(256 170.5)">
+          <circle r="50" fill="none" stroke="#000080" strokeWidth="4"/>
+          <circle r="8" fill="#000080"/>
+          {[...Array(24)].map((_, i) => (
+            <line key={i} y2="50" transform={`rotate(${i * 15})`} stroke="#000080" strokeWidth="2" />
+          ))}
+        </g>
+      </svg>
+    );
+
+    function Navbar() {
+      const [isScrolled, setIsScrolled] = useState(false);
+      const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+      const handleScroll = useCallback(() => {
+        setIsScrolled(window.scrollY > 50);
+      }, []);
+
+      useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+      }, [handleScroll]);
+
+      const navLinks = [
+        { name: "Home", href: "index.html"},
+        { name: "About Us", href: "about.html" },
+        { name: "Schemes", href: "scheme.html" },
+        { name: "RTI", href: "#" },
+        { name: "Tender", href: "#" },
+        { name: "Vendor & Shop", href: "#" },
+        { name: "Accounts", href: "#" },
+        { name: "To-Do", href: "#" },
+        { name: "Contact Us", href: "getin.html", active: true  },
+      ];
+
+      return (
+        <header className="fixed top-0 z-50 w-full transition-all duration-300">
+          {/* Top Black Bar */}
+          <div className={`bg-black text-white transition-all duration-300 overflow-hidden ${isScrolled ? 'h-0 opacity-0' : 'h-12 opacity-100 border-b border-white/10'}`}>
+            <div className="max-w-[1500px] mx-auto px-6 h-full flex items-center justify-between text-xs tracking-wide">
+              <div className="flex items-center gap-3">
+                <IndianFlag width="w-7" />
+                <span className="font-medium uppercase">Government of India</span>
+              </div>
+              <div className="flex items-center gap-6">
+                <div className="flex items-center gap-3 border-r border-white/20 pr-6">
+                  <button className="hover:text-red-500">-A</button>
+                  <button className="bg-white/10 w-6 h-6 flex items-center justify-center rounded">A</button>
+                  <button className="hover:text-red-500">A+</button>
+                </div>
+                <div className="flex items-center gap-3">
+                  <button className="font-semibold text-red-500 uppercase">English</button>
+                  <span className="text-white/30">|</span>
+                  <button className="text-gray-300 hover:text-red-500">हिन्दी</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Main White Navbar */}
+          <div className={`w-full transition-all duration-300 bg-white border-b border-gray-100 ${isScrolled ? 'shadow-md h-20' : 'h-28'}`}>
+            <div className="max-w-[1500px] mx-auto px-6 h-full flex items-center justify-between gap-10">
+              <div className="shrink-0 flex items-center gap-5">
+                <a href="/" className="shrink-0">
+  <img 
+    src="/image/CIDClogo.png" 
+    alt="Logo" 
+    className={`
+      object-contain transition-all duration-500 
+      /* Mobile/Small sizes */
+      ${isScrolled ? 'h-8' : 'h-10'} 
+      /* Tablet/Medium sizes (md) */
+      ${isScrolled ? 'md:h-9' : 'md:h-12'} 
+      /* Desktop sizes (lg) */
+      ${isScrolled ? 'lg:h-10' : 'lg:h-14'}
+    `} 
+  />
+</a>
+                <div className={`w-px bg-gray-200 transition-all duration-500 ${isScrolled ? 'h-10' : 'h-16'}`}></div>
+                <div className="flex flex-col max-w-[200px] md:max-w-[300px] text-gray-900 leading-tight">
+  <span className="text-sm md:text-lg font-extrabold uppercase text-gray-500">
+    Government of Chhattisgarh
+  </span>
+  <span className="text-[10px] md:text-[13px] font-semibold text-gray-700">
+    Chhattisgarh Infrastructure Development Corporation Ltd.
+  </span>
+</div>
+              </div>
+
+              {/* Desktop Nav */}
+              <nav className="hidden xl:flex items-center space-x-9 text-[15px] font-semibold text-gray-800">
+                {navLinks.map((link) => (
+                  <a key={link.name} className={link.active ? "text-[#B22234]" : "hover:text-[#B22234] transition-colors"} href={link.href}>{link.name}</a>
+                ))}
+              </nav>
+
+              {/* Mobile Toggle */}
+              <button className="xl:hidden p-2" onClick={() => setIsMenuOpen(true)}>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+              </button>
+            </div>
+          </div>
+
+          {/* Sidebar Overlay */}
+          <div className={`fixed inset-0 bg-black/50 transition-opacity duration-300 xl:hidden ${isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`} onClick={() => setIsMenuOpen(false)} />
+
+          {/* Sidebar Panel */}
+          <div className={`fixed top-0 right-0 h-full w-72 bg-white shadow-2xl transition-transform duration-300 transform xl:hidden z-[60] ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-8">
+                <span className="font-bold text-gray-400">MENU</span>
+                <button onClick={() => setIsMenuOpen(false)}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+              </div>
+              <nav className="flex flex-col space-y-4">
+                {navLinks.map((link) => (
+                  <a key={link.name} className={`text-lg font-semibold py-2 border-b border-gray-50 ${link.active ? "text-[#B22234]" : "text-gray-800"}`} href={link.href}>{link.name}</a>
+                ))}
+              </nav>
+            </div>
+          </div>
+        </header>
+      );
+    }
+
+  
+    
+  function ContactSection() {
+  const containerStyle = { maxWidth: '1500px' };
+
+  return (
+    <section className="py-24 px-6 bg-white border-t border-zinc-200 font-sans">
+      <div style={containerStyle} className="mx-auto">
+        
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">
+          <div className="max-w-2xl">
+            <span className="bg-zinc-100 text-zinc-500 text-[10px] font-black px-3 py-1 uppercase tracking-[0.3em] mb-4 inline-block">
+              Contact Gateway
+            </span>
+            <h2 className="text-5xl md:text-6xl font-black text-zinc-900 uppercase tracking-tighter leading-none mb-6">
+              Get in <span className="text-[#B22234]">Touch</span>
+            </h2>
+            <p className="text-zinc-500 text-base font-medium leading-relaxed max-w-xl">
+              Connect with the CIDC Raipur institutional desk. We are committed to transparency 
+              and efficient public service delivery across Chhattisgarh.
+            </p>
+          </div>
+          <div className="w-48 h-1 bg-[#B22234]"></div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          
+          {/* Left Column: Info Cards & Map */}
+          <div className="lg:col-span-7 space-y-8">
+            
+            {/* Top Row: Address, Line, Email */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-zinc-200">
+              <div className="p-8 border-r border-b md:border-b-0 border-zinc-200 bg-white group hover:bg-zinc-50 transition-colors">
+                <div className="w-10 h-10 bg-zinc-50 flex items-center justify-center mb-6 text-[#B22234]">🏢</div>
+                <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Office Address</h4>
+                <p className="text-sm font-bold text-zinc-800 leading-snug mb-4">
+                  CIDC Raipur, Sector 24, Atal Nagar, Raipur, Chhattisgarh 492002
+                </p>
+                <button className="text-[9px] font-black text-[#B22234] uppercase tracking-widest border-b border-[#B22234] pb-1">Get Directions</button>
+              </div>
+
+              <div className="p-8 border-r border-b md:border-b-0 border-zinc-200 bg-zinc-50 group hover:bg-white transition-colors">
+                <div className="w-10 h-10 bg-white flex items-center justify-center mb-6 text-[#B22234]">📞</div>
+                <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Direct Line</h4>
+                <p className="text-sm font-bold text-zinc-800 leading-snug">
+                  +91 (771) 251-XXXX <br />
+                  Help Desk: 1800-123-XXXX
+                </p>
+              </div>
+
+              <div className="p-8 bg-zinc-50 group hover:bg-white transition-colors">
+                <div className="w-10 h-10 bg-white flex items-center justify-center mb-6 text-[#B22234]">✉️</div>
+                <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Email Support</h4>
+                <p className="text-sm font-bold text-zinc-800 leading-snug truncate">
+                  contact@cidc.cg.gov.in <br />
+                  rti: support@cidc.cg.gov.in
+                </p>
+              </div>
+            </div>
+
+            {/* Middle Row: Timings & Portal */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="bg-zinc-100 p-8 flex items-center justify-between border-l-4 border-zinc-900">
+                <div>
+                  <h4 className="text-lg font-black uppercase tracking-tighter text-zinc-900">Standard Timings</h4>
+                  <p className="text-[11px] font-medium text-zinc-500 mb-4">Official government working hours.</p>
+                  <div className="flex gap-8">
+                    <div>
+                      <p className="text-[9px] font-black text-[#B22234] uppercase tracking-widest">Mon - Fri</p>
+                      <p className="font-bold text-zinc-900">10:00 - 17:30</p>
+                    </div>
+                    <div>
+                      <p className="text-[9px] font-black text-zinc-400 uppercase tracking-widest">Sat - Sun</p>
+                      <p className="font-bold text-zinc-400">Closed</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="text-4xl opacity-10">🕒</div>
+              </div>
+
+<div className="bg-[#B22234] p-10 text-white flex flex-col md:flex-row items-center justify-between relative overflow-hidden group shadow-2xl">
+  
+  {/* Left: Portal Branding */}
+  <div className="relative z-10 mb-8 md:mb-0">
+    <div className="flex items-center gap-3 mb-4">
+      <div className="w-8 h-px bg-white/40 group-hover:w-12 transition-all duration-500"></div>
+      <span className="text-[9px] font-black text-white/70 uppercase tracking-[0.4em]">Digital Desk</span>
+    </div>
+    
+    
+    {/* Social Media Dock - Industrial Style */}
+    <div className="flex gap-4 mt-6">
+      {[
+        { name: 'LN', path: 'M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z' }, // LinkedIn
+        { name: 'XT', path: 'M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.451-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z' }, // X
+        { name: 'IG', path: 'M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.266.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z' } // Instagram
+      ].map((social, i) => (
+        <a 
+          key={i} 
+          href="#" 
+          className="w-8 h-8 border border-white/20 flex items-center justify-center hover:bg-white hover:text-[#B22234] transition-all duration-300 group/icon"
+        >
+          <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+            <path d={social.path} />
+          </svg>
+        </a>
+      ))}
+    </div>
+  </div>
+
+
+  {/* Decorative Technical Overlay (Replaced Emoji) */}
+  <div className="absolute right-0 bottom-0 p-4 opacity-5 pointer-events-none">
+    <svg className="w-48 h-48 rotate-12" fill="none" stroke="currentColor" strokeWidth="1" viewBox="0 0 24 24">
+      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+    </svg>
+  </div>
+</div>
+            </div>
+
+            {/* Map Section */}
+           <div className="h-[450px] bg-zinc-950 border border-zinc-900 relative overflow-hidden group">
+  
+  {/* Map Grid Overlay (Technical Grid) */}
+  <div className="absolute inset-0 z-10 opacity-20 pointer-events-none" 
+       style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '30px 30px' }}>
+  </div>
+
+  {/* The Map Extraction (Grayscale + High Contrast) */}
+  <div className="absolute inset-0 grayscale contrast-125 brightness-75 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-1000">
+    <iframe 
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d59508.39785122971!2d81.74548234316893!3d21.151400030588145!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a28c460d3d4b6eb%3A0xf6398904791b7d5!2sNaya%20Raipur%2C%20Chhattisgarh!5e0!3m2!1sen!2sin!4v1712061234567!5m2!1sen!2sin" 
+      width="100%" 
+      height="100%" 
+      style={{ border: 0, filter: 'invert(90%) hue-rotate(180deg) brightness(95%) contrast(90%)' }} 
+      allowFullScreen="" 
+      loading="lazy"
+    ></iframe>
+  </div>
+
+  {/* CIDC Site Metadata (GPS Sidebar) */}
+  <div className="absolute top-0 right-0 h-full w-64 bg-zinc-900/90 backdrop-blur-md p-8 z-20 border-l border-white/10 flex flex-col justify-between translate-x-4 group-hover:translate-x-0 transition-transform duration-500">
+    <div>
+      <div className="flex items-center gap-3 mb-8">
+        <div className="w-2 h-2 bg-[#B22234] animate-pulse"></div>
+        <span className="text-[10px] font-black text-white uppercase tracking-[0.4em]">Site Online</span>
+      </div>
+      
+      <div className="space-y-6">
+        <div>
+          <p className="text-[8px] font-black text-zinc-500 uppercase tracking-widest mb-1">Sector Code</p>
+          <p className="text-xs font-bold text-white uppercase">Sector 24 / AN-01</p>
+        </div>
+        <div>
+          <p className="text-[8px] font-black text-zinc-500 uppercase tracking-widest mb-1">Coordinates</p>
+          <p className="text-xs font-bold text-white uppercase">21.1610° N, 81.7863° E</p>
+        </div>
+      </div>
+    </div>
+
+    <div className="pt-8 border-t border-white/10">
+       <h4 className="text-[14px] font-black text-white uppercase tracking-tighter mb-2 leading-none">
+         Institutional <br /> <span className="text-[#B22234]">Headquarters</span>
+       </h4>
+       <button className="text-[9px] font-black text-zinc-400 uppercase tracking-widest hover:text-white transition-colors">
+         Full Extraction →
+       </button>
+    </div>
+  </div>
+
+  {/* Compass Rose Decoration */}
+  <div className="absolute bottom-8 left-8 z-20 opacity-30 pointer-events-none">
+     <svg className="w-16 h-16 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 2v20M2 12h20M12 7l-5 5 5 5 5-5-5-5z" />
+     </svg>
+  </div>
+</div>
+          </div>
+
+          {/* Right Column: Inquiry Form */}
+<div className="lg:col-span-5 font-sans">
+  {/* CIDC Header Style - Wrapping the Title */}
+  <div className="mb-10">
+    <div className="flex items-center gap-3 mb-3">
+      <div className="w-10 h-0.5 bg-[#B22234]"></div>
+      <span className="text-[#B22234] font-black text-[9px] uppercase tracking-[0.4em]">Inquiry Desk</span>
+    </div>
+    <h3 className="text-3xl font-black uppercase tracking-tighter text-zinc-900 leading-none">
+      Support <span className="text-[#B22234]">Inquiry</span>
+    </h3>
+  </div>
+
+  {/* Wrapped Form Content - Tight Industrial Border */}
+  <div className="border-2 border-zinc-900 p-8 lg:p-10 bg-white relative">
+    {/* Mandatory Field Indicator - Integrated into the border top */}
+    <div className="absolute -top-3 left-6 bg-white px-3">
+      <p className="text-[9px] text-zinc-400 font-black uppercase tracking-widest">
+        Fields marked with * are mandatory
+      </p>
+    </div>
+
+    <form className="space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="space-y-2">
+          <label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Full Name *</label>
+          <input 
+            type="text" 
+            placeholder="e.g. Rahul Sharma" 
+            className="w-full bg-zinc-50 border border-zinc-200 p-4 text-sm font-bold focus:border-[#B22234] focus:bg-white outline-none transition-all" 
+          />
+        </div>
+        <div className="space-y-2">
+          <label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Email Address *</label>
+          <input 
+            type="email" 
+            placeholder="rahul@example.com" 
+            className="w-full bg-zinc-50 border border-zinc-200 p-4 text-sm font-bold focus:border-[#B22234] focus:bg-white outline-none transition-all" 
+          />
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Subject *</label>
+        <div className="relative">
+          <select className="w-full bg-zinc-50 border border-zinc-200 p-4 text-sm font-bold focus:border-[#B22234] focus:bg-white outline-none transition-all appearance-none cursor-pointer">
+            <option>General Information</option>
+            <option>Project Inquiry</option>
+            <option>Compliance Support</option>
+          </select>
+          <div className="absolute right-4 top-5 pointer-events-none text-zinc-400 text-xs">▼</div>
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <label className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Message *</label>
+        <textarea 
+          rows="5" 
+          placeholder="How can our institutional desk assist you today?" 
+          className="w-full bg-zinc-50 border border-zinc-200 p-4 text-sm font-bold focus:border-[#B22234] focus:bg-white outline-none transition-all resize-none"
+        ></textarea>
+      </div>
+
+      {/* Industrial Button with Sharp Edge Wrapping */}
+      <button className="w-full bg-zinc-900 text-white py-5 font-black text-[11px] uppercase tracking-[0.4em] hover:bg-[#B22234] transition-all duration-300 shadow-xl">
+        Send Message —
+      </button>
+    </form>
+  </div>
+  
+  {/* Statutory Footer - Attached to the bottom of the wrap */}
+  <p className="text-[8px] text-zinc-400 mt-4 uppercase tracking-[0.2em] font-bold text-center">
+    Official Correspondence | CIDC Raipur Institutional Hub
+  </p>
+</div>
+
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+function Footer (){
+  const sectionTitle = "text-white font-bold text-lg mb-6 pb-2 border-b-2 border-[#B22234] inline-block";
+  const linkStyle = "text-gray-400 hover:text-[#B22234] transition-colors duration-300 text-sm flex items-center gap-2";
+
+  return (
+    <footer className="bg-[#1a1a1a] text-white pt-16 pb-8">
+      <div className="max-w-[1500px] mx-auto px-6">
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+          
+          <div className="space-y-4">
+            <h3 className={sectionTitle}>CIDC Raipur</h3>
+            <p className="text-gray-400 text-sm leading-relaxed">
+              Chhattisgarh Infrastructure Development Corporation Ltd. is committed to 
+              building sustainable and world-class infrastructure for the state of Chhattisgarh.
+            </p>
+            <div className="pt-4">
+              <p className="text-xs text-gray-500 uppercase tracking-widest mb-2">Total Visitors</p>
+              <span className="bg-gray-800 px-3 py-1 rounded text-[#B22234] font-mono font-bold tracking-tighter">
+                012,458,792
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <h3 className={sectionTitle}>Quick Links</h3>
+            <ul className="space-y-3">
+              <li><a href="#" className={linkStyle}>› Tenders & RFPs</a></li>
+              <li><a href="#" className={linkStyle}>› Latest News</a></li>
+              <li><a href="#" className={linkStyle}>› Recruitment</a></li>
+              <li><a href="#" className={linkStyle}>› Photo Gallery</a></li>
+              <li><a href="#" className={linkStyle}>› Important Documents</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className={sectionTitle}>Policy & Help</h3>
+            <ul className="space-y-3">
+              <li><a href="#" className={linkStyle}>› Right to Information (RTI)</a></li>
+              <li><a href="#" className={linkStyle}>› Terms & Conditions</a></li>
+              <li><a href="#" className={linkStyle}>› Privacy Policy</a></li>
+              <li><a href="#" className={linkStyle}>› Hyperlinking Policy</a></li>
+              <li><a href="#" className={linkStyle}>› Copyright Policy</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className={sectionTitle}>Contact Us</h3>
+            <div className="text-gray-400 text-sm space-y-4">
+              <p>
+                <strong>Address:</strong><br />
+                First Floor, Shastri Chowk,<br /> 
+                Raipur, Chhattisgarh - 492001
+              </p>
+              <p>
+                <strong>Phone:</strong> +91-771-1234567
+              </p>
+              <p>
+                <strong>Email:</strong> info@cidc.cg.gov.in
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <hr className="border-gray-800 mb-8" />
+
+        <div className="flex flex-wrap items-center justify-center gap-12 mb-8 opacity-70 grayscale hover:grayscale-0 transition-all">
+          <img src="/image/digital-india.png" alt="Digital India" className="h-10 object-contain" />
+          <img src="/image/nic-logo.png" alt="National Informatics Centre" className="h-10 object-contain" />
+          <img src="/image/mygov-logo.png" alt="MyGov" className="h-10 object-contain" />
+          <img src="/image/india-gov-logo.png" alt="India.gov.in" className="h-10 object-contain" />
+        </div>
+
+        <div className="text-center space-y-4 pt-8 border-t border-gray-800">
+          <p className="text-xs text-gray-500 leading-relaxed">
+            Content Owned by Chhattisgarh Infrastructure Development Corporation Ltd. (CIDC) <br />
+            © 2026 CIDC. All rights reserved. 
+          </p>
+          <p className="text-[10px] text-gray-600 uppercase tracking-widest">
+            Developed and Hosted by <span className="text-gray-400">National Informatics Centre (NIC)</span>
+          </p>
+        </div>
+
+      </div>
+    </footer>
+  );
+};
+
+  function FloatingNotice() {
+  return (
+    <a 
+      href="notice.html" 
+      className="fixed bottom-10 right-10 z-[100] flex items-center group font-sans"
+    >
+      {/* Label: Only visible on hover */}
+      <span className=" z-[-1]  bg-[#B22234] text-white text-[12px] font-black uppercase tracking-[0.2em] px-8 py-4 pr-12 -mr-10 opacity-0 group-hover:opacity-100 transition-all duration-300">
+        Notice
+      </span>
+
+      {/* Circle Button */}
+      <div className="w-20 h-20 bg-[#B22234] text-white rounded-full flex items-center justify-center shadow-xl group-hover:bg-zinc-950 transition-colors duration-300">
+        <svg 
+          className="w-7 h-7" 
+          fill="none" 
+          stroke="currentColor" 
+          strokeWidth="2.5" 
+          viewBox="0 0 24 24"
+        >
+          <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+      </div>
+    </a>
+  );
+}
+
+        function Home() {
+            return (
+                <div className="antialiased font-sans">
+                    <Navbar />
+                    <main className="pt-40 min-h-screen px-6">
+
+                        <ContactSection />
+                        <FloatingNotice />
+
+                    </main>
+                    <Footer />
+                </div>
+            );
+        }
+
+        const container = document.querySelector('.js-container');
+        const root = ReactDOM.createRoot(container);
+        root.render(<Home />);
+    </script>
+</body>
+</html>
