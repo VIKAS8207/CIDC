@@ -69,7 +69,7 @@
         { name: "About Us", href: "about.html" },
         { name: "Schemes", href: "scheme.html" },
         { name: "RTI", href: "#" , active: true },
-        { name: "Tender", href: "#" },
+        { name: "Tender", href: "tender.html" },
         { name: "Vendor & Shop", href: "shop.html" },
         { name: "EPFO", href: "EPFO.html" },
         { name: "To-Do", href: "todo.html" },
@@ -106,7 +106,7 @@
               <div className="shrink-0 flex items-center gap-5">
                 <a href="/" className="shrink-0">
   <img 
-    src="image/CIDClogo.png" 
+    src="/image/CIDClogo.png" 
     alt="Logo" 
     className={`
       object-contain transition-all duration-500 
@@ -214,7 +214,7 @@
               href="https://rtionline.gov.in" 
               className="inline-block bg-white text-[#B22234] px-16 py-6 font-black text-[12px] uppercase tracking-[0.3em] hover:bg-zinc-900 hover:text-white transition-all shadow-xl border-4 border-transparent hover:border-white/10"
             >
-              Start Application —
+              Start Application 
             </a>
           </div>
         </div>
@@ -244,7 +244,7 @@
           className="w-full px-6 py-5 border border-zinc-200 bg-zinc-50 text-[11px] font-bold tracking-[0.1em] uppercase focus:bg-white focus:border-zinc-900 outline-none transition-all placeholder:text-zinc-300"
         />
         <button className="bg-zinc-900 text-white px-10 py-5 text-[10px] font-black uppercase tracking-[0.2em] hover:bg-[#B22234] transition-all">
-          Execute —
+          Execute 
         </button>
       </div>
       
@@ -373,7 +373,7 @@
         </div>
 
         <button className="relative z-10 w-full py-6 bg-white text-[#B22234] font-black text-[12px] uppercase tracking-[0.4em] hover:bg-zinc-900 hover:text-white transition-all duration-500">
-          Lodge First Appeal —
+          Lodge First Appeal 
         </button>
       </div>
 
@@ -385,102 +385,7 @@
   );
 }
 
- function TransparencyReport() {
-  const reports = [
-    { name: "Annual Compliance Audit", fy: "2025-26", dept: "Executive Council", link: "#" },
-    { name: "Infrastructure Fund Utilization", fy: "2024-25", dept: "Finance & Accounts", link: "#" },
-    { name: "Workforce Skill Analysis", fy: "2024-25", dept: "Human Resources", link: "#" },
-    { name: "Public Procurement Ledger", fy: "2023-24", dept: "Procurement Wing", link: "#" },
-  ];
-
-  return (
-    <section className="w-full py-20 bg-white font-sans">
-      <div className="max-w-[1500px] mx-auto px-6">
-        
-        {/* Header with CIDC Red Accent */}
-        <div className="flex justify-between items-end border-b-2 border-zinc-900 pb-8 mb-0">
-          <div>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-px bg-[#B22234]"></div>
-              <span className="text-[#B22234] font-black text-[9px] uppercase tracking-[0.4em]">Audit Trail</span>
-            </div>
-            <h2 className="text-4xl font-black text-zinc-900 uppercase tracking-tighter leading-none">
-              Yearly Transparency <span className="text-[#B22234]">Reports</span>
-            </h2>
-          </div>
-          <p className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.2em] hidden md:block">
-            Institutional Accountability Framework v2.0
-          </p>
-        </div>
-
-        {/* Industrial Ledger Table */}
-        <div className="border-x border-zinc-200">
-          {/* Table Head */}
-          <div className="grid grid-cols-12 bg-zinc-50 border-b border-zinc-900 py-6 px-8">
-            <div className="col-span-5 text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400">Report Nomenclature</div>
-            <div className="col-span-2 text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400">Financial Year</div>
-            <div className="col-span-3 text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400">Issuing Department</div>
-            <div className="col-span-2 text-right text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400">Action</div>
-          </div>
-
-          {/* Table Body */}
-          {reports.map((report, i) => (
-            <div 
-              key={i} 
-              className="grid grid-cols-12 items-center py-8 px-8 border-b border-zinc-100 hover:bg-zinc-50 transition-all group"
-            >
-              {/* Report Name */}
-              <div className="col-span-5">
-                <span className="text-sm font-bold text-zinc-900 uppercase tracking-tight group-hover:text-[#B22234] transition-colors">
-                  {report.name}
-                </span>
-              </div>
-
-              {/* Financial Year */}
-              <div className="col-span-2">
-                <span className="text-[11px] font-black text-zinc-500 font-mono">
-                  {report.fy}
-                </span>
-              </div>
-
-              {/* Department */}
-              <div className="col-span-3">
-                <span className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">
-                  {report.dept}
-                </span>
-              </div>
-
-              {/* Download Button */}
-              <div className="col-span-2 text-right">
-                <a 
-                  href={report.link} 
-                  className="inline-flex items-center gap-3 bg-zinc-900 text-white px-6 py-3 text-[9px] font-black uppercase tracking-[0.2em] hover:bg-[#B22234] transition-all shadow-lg"
-                >
-                  Download PDF
-                  <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
-                    <path d="M12 5v14m7-7l-7 7-7-7" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Ledger Footer */}
-        <div className="mt-8 flex justify-between items-center px-2">
-          <p className="text-[8px] font-bold text-zinc-400 uppercase tracking-[0.3em]">
-            Records verified as of April 2026
-          </p>
-          <div className="flex gap-2">
-            <button className="w-8 h-8 border border-zinc-200 flex items-center justify-center text-zinc-400 hover:border-zinc-900 hover:text-zinc-900 transition-all text-xs">←</button>
-            <button className="w-8 h-8 border border-zinc-900 flex items-center justify-center text-zinc-900 bg-zinc-50 text-xs">01</button>
-            <button className="w-8 h-8 border border-zinc-200 flex items-center justify-center text-zinc-400 hover:border-zinc-900 hover:text-zinc-900 transition-all text-xs">→</button>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
+ 
 
 function Footer (){
   const sectionTitle = "text-white font-bold text-lg mb-6 pb-2 border-b-2 border-[#B22234] inline-block";
@@ -570,6 +475,112 @@ function Footer (){
   );
 };
 
+
+
+function RTIContactRegistry() {
+  const containerStyle = { maxWidth: '1500px' };
+
+  const officers = [
+    {
+      role: "Public Relation Officer (PRO)",
+      authority: "RTI Information Wing",
+      name: "Shri. Alok Vardhan",
+      contact: "+91-771-2234567",
+      email: "pro.rti@cidc.cg.gov.in",
+      accent: "bg-[#B22234]" // Madder Red for Primary Point of Contact
+    },
+    {
+      role: "First Appellate Authority",
+      authority: "Statutory Appeals Division",
+      name: "Smt. Rashmi Singh",
+      contact: "+91-771-2234588",
+      email: "faa.rti@cidc.cg.gov.in",
+      accent: "bg-zinc-900" // Zinc-900 for Appellate Authority
+    }
+  ];
+
+  return (
+    <section className="py-20 bg-white font-sans antialiased">
+      <div style={containerStyle} className="mx-auto px-8">
+        
+        {/* SECTION HEADER: REGULATORY CONTEXT */}
+        <div className="mb-12 border-b-2 border-zinc-900 pb-8">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-1 bg-[#B22234]"></div>
+            <span className="text-[#B22234] font-black text-[10px] uppercase tracking-[0.5em]">Section 4(1)(b) Compliance</span>
+          </div>
+          <h2 className="text-4xl font-black text-zinc-900 uppercase tracking-tighter leading-none">
+            RTI Statutory <span className="text-[#B22234]">Contacts</span>
+          </h2>
+        </div>
+
+        {/* DUAL-COLUMN CONTACT MONOLITH */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-0 border border-zinc-200">
+          {officers.map((officer, i) => (
+            <div 
+              key={i} 
+              className={`p-12 flex flex-col justify-between h-[400px] transition-all duration-500 hover:bg-zinc-50 group
+                ${i === 0 ? 'border-r border-zinc-200' : 'border-l-4 border-l-[#B22234]'}`}
+            >
+              {/* Top: Role & Authority */}
+              <div>
+                <div className="flex items-center gap-4 mb-6">
+                  <div className={`w-3 h-3 ${officer.accent} shrink-0`}></div>
+                  <span className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400 group-hover:text-zinc-900 transition-colors">
+                    {officer.authority}
+                  </span>
+                </div>
+                <h3 className="text-3xl font-black text-zinc-900 uppercase tracking-tighter leading-tight mb-4">
+                  {officer.role}
+                </h3>
+              </div>
+
+              {/* Bottom: Credentials */}
+              <div className="space-y-6">
+                <div>
+                  <span className="text-[9px] font-black uppercase tracking-[0.4em] text-zinc-400 block mb-1">Official Name</span>
+                  <p className="text-xl font-black text-zinc-900 uppercase tracking-tight group-hover:text-[#B22234] transition-colors">
+                    {officer.name}
+                  </p>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-8 pt-6 border-t border-zinc-100">
+                  <div>
+                    <span className="text-[9px] font-black uppercase tracking-[0.4em] text-zinc-400 block mb-1">Contact Line</span>
+                    <p className="text-[13px] font-bold font-mono text-zinc-800">{officer.contact}</p>
+                  </div>
+                  <div>
+                    <span className="text-[9px] font-black uppercase tracking-[0.4em] text-zinc-400 block mb-1">Direct Email</span>
+                    <p className="text-[11px] font-bold text-zinc-500 break-all uppercase tracking-tighter">{officer.email}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Interaction Label */}
+              <div className="mt-8 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button className="text-[10px] font-black uppercase tracking-widest border-b-2 border-[#B22234] pb-1 hover:text-[#B22234]">
+                  Initiate Correspondence 
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* STATUTORY FOOTER NOTE */}
+        <div className="mt-8 flex items-center justify-between opacity-40">
+          <p className="text-[8px] font-black uppercase tracking-[0.5em]">Registry ID: CIDC-RTI-2026-V1</p>
+          <div className="flex gap-4">
+            <div className="w-2 h-2 bg-zinc-900"></div>
+            <div className="w-2 h-2 bg-[#B22234]"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+
+
   function FloatingNotice() {
   return (
     <a 
@@ -604,7 +615,8 @@ function Footer (){
                     <Navbar />
                     <main className="pt-40 min-h-screen px-6">
 <RTIPortal />
-<TransparencyReport />
+<RTIContactRegistry />
+<FloatingNotice />
 
 
                     </main>
