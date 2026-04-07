@@ -265,7 +265,7 @@
                         <section>
                             <SectionHeader title="Forms & Downloads" />
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border-t border-l border-zinc-200">
-                                {['Vendor Registration', 'RTI Application', 'Grant Request'].map((form, i) => (
+                                {['Vendor Registration', 'RTI Application', 'Government Guidelines'].map((form, i) => (
                                     <div key={i} className="p-12 border-r border-b border-zinc-200 bg-white flex flex-col justify-between h-72 group hover:bg-zinc-50 transition-all">
                                         <div>
                                             <span className="text-[10px] font-black text-zinc-300 uppercase tracking-widest mb-4 block">Form-0{i+1}</span>
@@ -278,40 +278,7 @@
                             </div>
                         </section>
 
-                        {/* 5. POLICIES & RULES - MONOLITH SPLIT */}
-                        <section className="bg-zinc-950 p-12 lg:p-20 flex flex-col lg:flex-row gap-16 relative overflow-hidden">
-                            {/* Technical Pattern Overlay */}
-                            <div className="absolute right-0 bottom-0 opacity-10 pointer-events-none">
-                                <svg className="w-64 h-64 rotate-12 translate-x-12 translate-y-12" fill="none" stroke="white" strokeWidth="1" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>
-                            </div>
-
-                            <div className="flex-1 relative z-10">
-                                <SectionHeader title={<span className="text-white">Transparency Policy</span>} />
-                                <ul className="space-y-6 mt-10">
-                                    {['Quarterly audit reports published openly.', 'Digital-first filing for all procurement.', 'Citizen grievance redressal within 15 days.'].map((text, i) => (
-                                        <li key={i} className="flex items-start gap-4 text-zinc-400 text-sm font-medium">
-                                            <div className="w-2 h-2 bg-[#B22234] mt-1.5 shrink-0"></div>
-                                            {text}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-
-                            <div className="flex-1 space-y-10 relative z-10">
-                                <div className="bg-white/5 border border-white/10 p-10 border-l-4 border-[#B22234]">
-                                    <h5 className="text-[#B22234] font-black text-[10px] uppercase tracking-[0.4em] mb-4 text-center">Critical Notice</h5>
-                                    <p className="text-white text-xs font-bold leading-relaxed uppercase tracking-wide">
-                                        Vendors found providing false documentation will be blacklisted across all 
-                                        state departments for a minimum period of 3 years.
-                                    </p>
-                                </div>
-                                <div className="flex flex-col sm:flex-row gap-4">
-                                    <button className="flex-1 bg-white text-zinc-900 py-5 font-black text-[10px] uppercase tracking-widest hover:bg-[#B22234] hover:text-white transition-all">Read Complete Charter</button>
-                                    <button className="flex-1 border border-white/20 text-white py-5 font-black text-[10px] uppercase tracking-widest hover:bg-white hover:text-zinc-900 transition-all">Full Policy PDF</button>
-                                </div>
-                            </div>
-                        </section>
-
+                        
                     </div>
                 </div>
             );
