@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIDC Raipur Portal | GOV UI DESIGN</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&family=Public+Sans:wght@700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        govRed: '#B32D2D',
+                        govBlack: '#212121',
+                        govGray: '#F5F5F5',
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans', 'sans-serif'],
+                        heading: ['Public Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-white m-0 overflow-x-hidden antialiased">
+
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const IndianFlag = () => (
+        <svg viewBox="0 0 900 600" className="w-6 h-4 shadow-sm" xmlns="http://www.w3.org/2000/svg">
+            <rect width="900" height="200" fill="#FF9933"/>
+            <rect y="200" width="900" height="200" fill="#FFFFFF"/>
+            <rect y="400" width="900" height="200" fill="#128807"/>
+            <g transform="translate(450,300)">
+                <circle r="92" fill="none" stroke="#000080" strokeWidth="4"/>
+                <circle r="10" fill="#000080"/>
+                {[...Array(24)].map((_, i) => (
+                    <line key={i} y1="-92" y2="92" transform={`rotate(${i * 7.5})`} stroke="#000080" strokeWidth="2" />
+                ))}
+            </g>
+        </svg>
+    );
+
+    const Header = () => {
+        const [isScrolled, setIsScrolled] = useState(false);
+        const [isSideNavOpen, setIsSideNavOpen] = useState(false);
+
+        useEffect(() => {
+            const handleScroll = () => setIsScrolled(window.scrollY > 40);
+            window.addEventListener('scroll', handleScroll);
+            return () => window.removeEventListener('scroll', handleScroll);
+        }, []);
+
+        const menuItems = [
+            { name: "Home", href: "index.html" },
+            { name: "About Us", href: "about.html", active: true  },
+            { name: "Schemes", href: "scheme.html" },
+            { name: "RTI", href: "rti.html" },
+            { name: "Tender", href: "tender.html" },
+            { name: "Vendor & Shop", href: "#" },
+            { name: "Accounts", href: "#" },
+            { name: "To-Do", href: "todo.html" },
+        ];
+
+        return (
+            <header className="fixed top-0 w-full z-50">
+                <div className={`bg-govBlack text-white transition-all duration-300 overflow-hidden flex items-center ${isScrolled ? 'h-0 opacity-0' : 'h-10 opacity-100 border-b border-white/10'}`}>
+                    <div className="max-w-7xl mx-auto px-6 w-full flex justify-between items-center text-[11px] font-heading font-bold uppercase tracking-tighter">
+                        <div className="flex items-center gap-4">
+                            <IndianFlag />
+                            <span className="hidden sm:inline">Government of Chhattisgarh</span>
+                        </div>
+                        <div className="flex gap-4 items-center">
+                            <a href="#" className="hover:text-govRed transition-colors">Contact Us</a>
+                            <div className="h-3 w-px bg-white/20"></div>
+                            <div className="flex gap-3">
+                                <span className="text-govRed cursor-pointer">English</span>
+                                <span className="text-gray-400">|</span>
+                                <span className="hover:text-govRed cursor-pointer font-normal">हिन्दी</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className={`bg-white border-b-2 border-govGray shadow-sm flex items-center transition-all duration-300 ${isScrolled ? 'h-16' : 'h-24 md:h-28'}`}>
+                    <div className="max-w-7xl mx-auto px-6 w-full flex justify-between items-center">
+                        <div className="flex items-center gap-4">
+                            <div className={`flex items-center justify-center transition-all duration-300 ${isScrolled ? 'w-12 h-12' : 'w-20 h-20 md:w-24 md:h-24'}`}>
+                              <img src="/image/CIDClogo.png" alt="CIDC Logo" className="max-h-full w-auto object-contain" />
+                            </div>
+                            <div className="hidden sm:flex flex-col border-l-4 border-govGray pl-4">
+                                <h1 className={`font-heading font-black leading-none text-govBlack uppercase tracking-tighter transition-all ${isScrolled ? 'text-lg' : 'text-xl'}`}>CIDC RAIPUR</h1>
+                                <span className="text-[8px] font-sans font-bold text-gray-500 mt-1 uppercase tracking-widest">Digital Advancement Portal</span>
+                            </div>
+                        </div>
+
+                        <nav className="hidden lg:flex gap-6 font-heading text-[14px] font-bold uppercase tracking-tight">
+                            {menuItems.map((item) => (
+                                <a 
+                                    key={item.name} 
+                                    href={item.href} 
+                                    className={`${item.active ? "text-govRed border-b-2 border-govRed" : "text-govBlack hover:text-govRed"} pb-1 transition-all`}
+                                >
+                                    {item.name}
+                                </a>
+                            ))}
+                        </nav>
+
+                        <button 
+                            onClick={() => setIsSideNavOpen(true)}
+                            className="lg:hidden p-2 hover:bg-govGray transition-colors"
+                        >
+                            <svg className="w-8 h-8 text-govBlack" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                {isSideNavOpen && (
+                    <div 
+                        className="fixed inset-0 bg-govBlack/60 backdrop-blur-sm z-[60] lg:hidden transition-opacity"
+                        onClick={() => setIsSideNavOpen(false)}
+                    ></div>
+                )}
+
+                <div className={`fixed top-0 right-0 h-full w-72 bg-white z-[70] shadow-2xl transition-transform duration-300 transform lg:hidden ${isSideNavOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+                    <div className="p-6 bg-govBlack text-white flex justify-between items-center">
+                        <button onClick={() => setIsSideNavOpen(false)} className="hover:text-govRed transition-colors">
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                        <span className="font-heading font-black text-sm tracking-widest">MENU</span>
+                    </div>
+                    <nav className="p-6 flex flex-col gap-6 font-heading font-bold uppercase text-sm text-right overflow-y-auto h-full pb-20">
+                        {menuItems.map((item) => (
+                            <a 
+                                key={item.name} 
+                                href={item.href} 
+                                className="text-govBlack hover:text-govRed border-b border-govGray pb-4 transition-colors"
+                                onClick={() => setIsSideNavOpen(false)}
+                            >
+                                {item.name}
+                            </a>
+                        ))}
+                    </nav>
+                </div>
+            </header>
+        );
+    };
+
+    function GovernancePortal() {
+  const containerStyle = { maxWidth: '1280px' };
+
+  // --- 1. AUDIT & REPORT REGISTRY DATA ---
+  const auditReports = [
+    { year: "2025-26", report: "Statutory Audit Report", status: "VERIFIED", ref: "CIDC/AUD/26/01" },
+    { year: "2024-25", report: "Annual Financial Statement", status: "ARCHIVED", ref: "CIDC/AUD/25/09" },
+    { year: "2023-24", report: "CAG Audit Observations", status: "ARCHIVED", ref: "CIDC/AUD/24/14" },
+  ];
+
+  // --- 2. MEETING REGISTRY DATA ---
+  const meetings = [
+    { type: "AGM", title: "24th Annual General Meeting", date: "15 SEP 2025", doc: "MOM_AGM_24.pdf" },
+    { type: "BOARD", title: "Quarterly Board Review - Q3", date: "10 JAN 2026", doc: "MOM_BD_Q3.pdf" },
+    { type: "BOARD", title: "Budget Planning Session", date: "05 MAR 2026", doc: "MOM_BD_BGT.pdf" },
+  ];
+
+  return (
+    <main className="min-h-screen bg-white py-16 font-sans antialiased text-govBlack">
+      <div style={containerStyle} className="mx-auto px-6 space-y-20">
+        
+        {/* --- SECTION 1: FINANCIAL IDENTITY --- */}
+        <header className="py-2">
+          <div className="flex items-center gap-3 mb-2">
+          </div>
+          <h1 className="text-5xl lg:text-7xl font-heading font-black uppercase tracking-tighter leading-none mb-6">
+            Accounts & <span className="text-govRed">Audit Compliance</span>
+          </h1>
+          <p className="text-gray-500 text-sm font-bold uppercase tracking-widest leading-relaxed max-w-3xl">
+            Statutory financial disclosure portal. Access year-wise balance sheets, 
+            CAG audit reports, and official minutes of institutional proceedings.
+          </p>
+        </header>
+
+        {/* --- SECTION 2: GRANT POSITION DASHBOARD (KPI MATRIX) --- */}
+        <section>
+          <div className="flex items-center gap-4 mb-10">
+            
+            <h2 className="text-2xl font-heading font-black uppercase tracking-tight">Grant Position Dashboard</h2>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border-2 border-govBlack shadow-sm">
+            <div className="p-10 border-r-2 border-govBlack bg-govGray flex flex-col justify-between h-48">
+              <span className="text-[10px] font-heading font-black text-gray-400 uppercase tracking-widest">Total Govt. Grant</span>
+              <h3 className="text-5xl font-heading font-black text-govRed tracking-tighter">₹ 17.00 <span className="text-xl">Cr</span></h3>
+              <p className="text-[9px] font-bold text-gray-500 uppercase tracking-widest">Disbursed: FY 2025-2026</p>
+            </div>
+            <div className="p-10 border-r-2 border-govBlack bg-white flex flex-col justify-between h-48">
+              <span className="text-[10px] font-heading font-black text-gray-400 uppercase tracking-widest">Fund Utilization</span>
+              <div>
+                <div className="flex justify-between mb-2">
+                  <span className="text-xl font-heading font-black text-govBlack uppercase">68.4%</span>
+                  <span className="text-xs font-bold text-gray-400 uppercase tracking-widest font-heading">Target: 100%</span>
+                </div>
+                <div className="h-3 w-full bg-govGray">
+                  <div className="h-full bg-govBlack" style={{ width: '68.4%' }}></div>
+                </div>
+              </div>
+              <p className="text-[9px] font-bold text-gray-500 uppercase tracking-widest">Quarterly Tracking Active</p>
+            </div>
+            <div className="p-10 bg-white flex flex-col justify-between h-48 group hover:bg-govBlack transition-all">
+              <span className="text-[10px] font-heading font-black text-gray-400 uppercase tracking-widest group-hover:text-white/40">Audit Status</span>
+              <h3 className="text-3xl font-heading font-black text-govBlack uppercase group-hover:text-white tracking-tight">Compliant</h3>
+              <button className="text-[10px] font-heading font-black text-govRed uppercase tracking-widest border-b border-govRed self-start group-hover:text-white group-hover:border-white">
+                View Certificate »
+              </button>
+            </div>
+          </div>
+        </section>
+
+        {/* --- SECTION 3: SHAREHOLDER POSITION & PATTERN --- */}
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {/* Shareholding Patterns */}
+          <div className="border border-gray-300 bg-white shadow-sm overflow-hidden">
+             <div className="bg-govBlack p-5 text-white font-heading font-black uppercase text-xs tracking-widest border-b-4 border-govRed">
+                Shareholding Pattern Ledger
+             </div>
+             <div className="p-8 space-y-8">
+                <div className="flex items-center justify-between">
+                   <div>
+                      <p className="text-3xl font-heading font-black text-govBlack leading-none">1,50,000</p>
+                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mt-2">Total Authorized Shares</p>
+                   </div>
+                   <div className="text-right">
+                      <p className="text-3xl font-heading font-black text-govRed leading-none">82%</p>
+                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mt-2">Govt. Equity</p>
+                   </div>
+                </div>
+                <div className="space-y-4">
+                   <div className="group">
+                      <div className="flex justify-between text-[11px] font-heading font-black mb-2">
+                         <span className="uppercase">Shares Sold / Allotted</span>
+                         <span className="text-govRed">1,23,000</span>
+                      </div>
+                      <div className="h-1.5 w-full bg-govGray"><div className="h-full bg-govRed" style={{ width: '82%' }}></div></div>
+                   </div>
+                   <div className="group">
+                      <div className="flex justify-between text-[11px] font-heading font-black mb-2">
+                         <span className="uppercase text-gray-400">Remaining / Unallotted</span>
+                         <span className="text-govBlack">27,000</span>
+                      </div>
+                      <div className="h-1.5 w-full bg-govGray"><div className="h-full bg-govBlack" style={{ width: '18%' }}></div></div>
+                   </div>
+                </div>
+             </div>
+          </div>
+
+          {/* AGM & MOM Documents */}
+          <div className="border border-gray-300 bg-white shadow-sm">
+             <div className="bg-govBlack p-5 text-white font-heading font-black uppercase text-xs tracking-widest border-b-4 border-govRed flex justify-between">
+                <span>Meeting Documentation</span>
+                <span className="text-govRed">MOM REGISTRY</span>
+             </div>
+             <table className="w-full text-left border-collapse font-sans">
+                <tbody className="text-[12px]">
+                   {meetings.map((m, i) => (
+                      <tr key={i} className="border-b border-gray-200 hover:bg-govGray transition-colors">
+                         <td className="px-6 py-4 font-heading font-black text-govBlack uppercase border-r border-gray-100">
+                            {m.title}
+                            <span className="block text-[8px] text-govRed mt-1 tracking-widest">{m.type} REF: 2026</span>
+                         </td>
+                         <td className="px-6 py-4 text-right">
+                            <button className="text-[10px] font-heading font-black text-gray-400 hover:text-govBlack uppercase flex items-center justify-end gap-2 ml-auto">
+                               <span>Download PDF</span>
+                               <div className="w-8 h-8 border border-gray-200 flex items-center justify-center group-hover:bg-govBlack transition-all">
+                                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7" /></svg>
+                               </div>
+                            </button>
+                         </td>
+                      </tr>
+                   ))}
+                </tbody>
+             </table>
+          </div>
+        </section>
+
+        {/* --- SECTION 4: YEAR-WISE AUDIT TABLE --- */}
+        <section>
+          <div className="mb-8 flex justify-between items-end">
+            <h2 className="text-2xl font-heading font-black uppercase tracking-tight text-govBlack">Financial Audit & <span className="text-govRed">Balance Sheets</span></h2>
+            <button className="text-[10px] font-heading font-black text-govRed border-b-2 border-govRed pb-1 uppercase tracking-widest">View Archive »</button>
+          </div>
+
+          <div className="border border-gray-300 overflow-hidden shadow-sm">
+            <table className="w-full text-left border-collapse font-sans bg-white">
+              <thead>
+                <tr className="bg-govBlack text-white text-[11px] font-heading uppercase tracking-widest">
+                  <th className="px-8 py-5 border-r border-white/10">Financial Year</th>
+                  <th className="px-8 py-5 border-r border-white/10">Statutory Document Nomenclature</th>
+                  <th className="px-8 py-5 border-r border-white/10 text-center">Filing Ref</th>
+                  <th className="px-8 py-5 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody className="text-[12px]">
+                {auditReports.map((row, i) => (
+                  <tr key={i} className="border-b border-gray-200 hover:bg-govGray transition-colors group">
+                    <td className="px-8 py-6 border-r border-gray-100 font-heading font-black text-govBlack tracking-widest">
+                      {row.year}
+                    </td>
+                    <td className="px-8 py-6 border-r border-gray-100">
+                      <h4 className="font-heading font-black text-govBlack uppercase tracking-tight group-hover:text-govRed transition-colors">
+                        {row.report}
+                      </h4>
+                      <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest mt-1">Audit Status: {row.status}</p>
+                    </td>
+                    <td className="px-8 py-6 border-r border-gray-100 text-center font-mono font-bold text-gray-500 uppercase">
+                      {row.ref}
+                    </td>
+                    <td className="px-8 py-6 text-right">
+                      <button className="bg-govBlack text-white px-8 py-3 text-[10px] font-heading font-black uppercase tracking-widest hover:bg-govRed transition-all">
+                        Execute Download »
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  );
+}
+
+
+
+    function Footer() {
+        const sectionTitle = "text-white font-heading font-black text-sm uppercase tracking-[0.2em] mb-6 pb-2 border-b-2 border-govRed inline-block";
+        const linkStyle = "text-gray-400 hover:text-govRed transition-colors duration-200 text-[12px] font-bold uppercase flex items-center gap-2 font-heading";
+        const containerStyle = { maxWidth: '1280px' };
+        return (
+            <footer className="bg-govBlack text-white pt-16 pb-12 border-t-4 border-govRed">
+                <div style={containerStyle} className="mx-auto px-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                        <div className="space-y-6">
+                            <div className="border-l-4 border-govRed pl-4">
+                                <h3 className="text-white font-heading font-black text-xl uppercase tracking-tighter">CIDC <span className="text-govRed">Raipur</span></h3>
+                                <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1 font-sans">Govt. of Chhattisgarh Undertaking</p>
+                            </div>
+                            <p className="text-gray-400 text-[12px] leading-relaxed font-sans">Chhattisgarh Infrastructure Development Corporation Ltd. is mandated to build sustainable and world-class infrastructure for the state of Chhattisgarh.</p>
+                            <div className="pt-4 border-t border-white/5">
+                                <p className="text-[10px] text-gray-500 uppercase tracking-widest mb-3 font-bold font-sans">Total Visitors since 2026</p>
+                                <span className="bg-black border border-white/10 px-4 py-1 text-govRed font-heading font-black text-lg tracking-[0.2em]">012,458,792</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 className={sectionTitle}>Quick Links</h3>
+                            <ul className="space-y-4">
+                                <li><a href="#" className={linkStyle}>» Tenders & RFPs</a></li>
+                                <li><a href="#" className={linkStyle}>» Latest News</a></li>
+                                <li><a href="#" className={linkStyle}>» Recruitment</a></li>
+                                <li><a href="#" className={linkStyle}>» Photo Gallery</a></li>
+                                <li><a href="#" className={linkStyle}>» Important Documents</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 className={sectionTitle}>Policy & Help</h3>
+                            <ul className="space-y-4">
+                                <li><a href="#" className={linkStyle}>» Right to Information</a></li>
+                                <li><a href="#" className={linkStyle}>» Terms & Conditions</a></li>
+                                <li><a href="#" className={linkStyle}>» Privacy Policy</a></li>
+                                <li><a href="#" className={linkStyle}>» Hyperlinking Policy</a></li>
+                                <li><a href="#" className={linkStyle}>» Copyright Policy</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 className={sectionTitle}>Contact Us</h3>
+                            <div className="text-gray-400 text-[12px] space-y-5 font-sans font-medium uppercase tracking-wide">
+                                <div className="flex gap-3"><span className="text-govRed font-bold">ADD:</span><p>First Floor, Shastri Chowk, Raipur, Chhattisgarh - 492001</p></div>
+                                <div className="flex gap-3"><span className="text-govRed font-bold">PHN:</span><p>+91-771-1234567</p></div>
+                                <div className="flex gap-3"><span className="text-govRed font-bold">EML:</span><p className="lowercase tracking-normal">info@cidc.cg.gov.in</p></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="border-y border-white/5 py-10 flex flex-wrap items-center justify-center gap-10 md:gap-20 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+                        <img src="/image/digital-india.png" alt="Digital India" className="h-8 object-contain" />
+                        <img src="/image/nic-logo.png" alt="NIC" className="h-8 object-contain" />
+                        <img src="/image/mygov-logo.png" alt="MyGov" className="h-8 object-contain" />
+                        <img src="/image/india-gov-logo.png" alt="National Portal" className="h-8 object-contain" />
+                    </div>
+                    <div className="text-center space-y-4 mt-10">
+                        <p className="text-[11px] text-gray-500 font-medium font-sans leading-relaxed">Content Owned and Maintained by Chhattisgarh Infrastructure Development Corporation Ltd. (CIDC) <br /> © 2026 CIDC Raipur. All rights reserved.</p>
+                        <div className="inline-block bg-white/5 px-6 py-2 border border-white/10">
+                            <p className="text-[10px] text-gray-400 uppercase tracking-[0.3em] font-heading font-black">Designed, Developed and Hosted by <span className="text-white">National Informatics Centre (NIC)</span></p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        );
+    };
+
+    const Home = () => (
+        <div className="antialiased selection:bg-govRed selection:text-white">
+            <Header />
+            <main className="pt-24 lg:pt-32">
+                <GovernancePortal />
+            </main>
+            <Footer />
+        </div>
+    );
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<Home />);
+</script>
+</body>
+</html>
